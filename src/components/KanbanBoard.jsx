@@ -1,4 +1,3 @@
-// KanbanBoard.jsx
 import React, { useEffect, useState, useCallback } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
@@ -7,7 +6,6 @@ import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 const API_BASE = 'https://backend.cicowp-ca.com/api';
 
 const KanbanBoard = () => {
-  
   const navigate = useNavigate();
   const [tasks, setTasks] = useState([]);
   const [title, setTitle] = useState('');
@@ -16,14 +14,13 @@ const KanbanBoard = () => {
   const [editTaskId, setEditTaskId] = useState(null);
   const [activityLog, setActivityLog] = useState([]);
 
-  // Fetch tasks
   const fetchTasks = useCallback(async () => {
     try {
       const token = localStorage.getItem('token');
       const res = await axios.get(`${API_BASE}/getTasks.php`, {
         headers: { Authorization: `Bearer ${token}` },
       });
-      setTasks(res.data);
+      setTasks(Array.isArray(res.data) ? res.data : []);
     } catch (err) {
       console.error('Fetch error:', err);
       if (err.response?.status === 401) {
@@ -35,15 +32,14 @@ const KanbanBoard = () => {
 
   useEffect(() => {
     fetchTasks();
-    const interval = setInterval(fetchTasks, 10000); // 🔁 Poll every 10 seconds
+    const interval = setInterval(fetchTasks, 10000);
     return () => clearInterval(interval);
   }, [fetchTasks]);
 
-  // Group by status
   const groupByStatus = () => {
     const groups = { todo: [], inprogress: [], done: [] };
-    tasks.forEach(task => {
-      const status = task.status || 'todo';
+    tasks.forEach((task) => {
+      const status = task.status?.toLowerCase() || 'todo';
       if (groups[status]) groups[status].push(task);
     });
     return groups;
@@ -51,7 +47,6 @@ const KanbanBoard = () => {
 
   const grouped = groupByStatus();
 
-  // Add/Edit Task
   const handleSubmitTask = async () => {
     if (!title.trim()) return alert('❗ Title is required.');
     const token = localStorage.getItem('token');
@@ -68,7 +63,7 @@ const KanbanBoard = () => {
       });
 
       if (res.data.status === 'success') {
-        setActivityLog(log => [
+        setActivityLog((log) => [
           `✔️ ${editTaskId ? 'Edited' : 'Added'} task: "${title}"`,
           ...log,
         ]);
@@ -85,23 +80,26 @@ const KanbanBoard = () => {
     }
   };
 
-  // Handle drag and drop
   const handleDragEnd = async (result) => {
     const { source, destination, draggableId } = result;
     if (!destination || source.droppableId === destination.droppableId) return;
 
     try {
       const token = localStorage.getItem('token');
-      await axios.put(`${API_BASE}/updateTaskStatus.php`, {
-        task_id: draggableId,
-        new_status: destination.droppableId,
-      }, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-          'Content-Type': 'application/json',
+      await axios.put(
+        `${API_BASE}/updateTaskStatus.php`,
+        {
+          task_id: draggableId,
+          new_status: destination.droppableId,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            'Content-Type': 'application/json',
+          },
         }
-      });
-      setActivityLog(log => [
+      );
+      setActivityLog((log) => [
         `🔄 Moved task ID ${draggableId} to "${destination.droppableId}"`,
         ...log,
       ]);
@@ -125,13 +123,13 @@ const KanbanBoard = () => {
 
   return (
     <div style={{ padding: '20px' }}>
-      {/* 🔓 Header */}
+      {/* Header */}
       <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '20px' }}>
         <h2>Kanban Board</h2>
         <button onClick={handleLogout} style={{ padding: '8px 14px', background: '#d9534f', color: '#fff', border: 'none' }}>Logout</button>
       </div>
 
-      {/* ➕ Task Form */}
+      {/* Task Form */}
       <div style={{ background: '#f5f5f5', padding: '15px', borderRadius: '8px', marginBottom: '20px' }}>
         <h4>{editTaskId ? '✏️ Edit Task' : '➕ Add Task'}</h4>
         <div style={{ display: 'flex', gap: '10px', flexWrap: 'wrap' }}>
@@ -148,27 +146,27 @@ const KanbanBoard = () => {
         </div>
       </div>
 
-      {/* 📋 Columns */}
+      {/* Columns */}
       <DragDropContext onDragEnd={handleDragEnd}>
         <div style={{ display: 'flex', gap: '20px' }}>
-          {['todo', 'inprogress', 'done'].map(status => (
+          {['todo', 'inprogress', 'done'].map((status) => (
             <Droppable key={status} droppableId={status}>
               {(provided) => (
                 <div
-                  {...provided.droppableProps}
                   ref={provided.innerRef}
+                  {...provided.droppableProps}
                   style={{
                     flex: 1,
                     background: '#fff',
                     padding: '10px',
                     borderRadius: '10px',
                     minHeight: '300px',
-                    border: '1px solid #ccc'
+                    border: '1px solid #ccc',
                   }}
                 >
                   <h4 style={{ textAlign: 'center' }}>{status.toUpperCase()}</h4>
                   {grouped[status].map((task, index) => (
-                    <Draggable key={task.id.toString()} draggableId={task.id.toString()} index={index}>
+                    <Draggable key={String(task.id)} draggableId={String(task.id)} index={index}>
                       {(provided) => (
                         <div
                           {...provided.draggableProps}
@@ -180,11 +178,11 @@ const KanbanBoard = () => {
                             padding: '10px',
                             borderRadius: '6px',
                             boxShadow: '0 1px 3px rgba(0,0,0,0.1)',
-                            ...provided.draggableProps.style
+                            ...provided.draggableProps.style,
                           }}
                         >
                           <strong>{task.title}</strong>
-                          {task.description && <div style={{ fontSize: '0.9em', marginTop: '4px' }}>{task.description}</div>}
+                          {task.description && <div style={{ fontSize: '0.9em' }}>{task.description}</div>}
                           <div style={{ fontSize: '0.8em', color: '#999' }}>Priority: {task.priority}</div>
                           <button onClick={() => handleEditClick(task)} style={{ marginTop: '5px', padding: '4px 8px', fontSize: '0.8em' }}>✏️ Edit</button>
                         </div>
@@ -199,12 +197,12 @@ const KanbanBoard = () => {
         </div>
       </DragDropContext>
 
-      {/* 📝 Activity Log */}
+      {/* Activity Logs */}
       <div style={{ marginTop: '30px' }}>
         <h4>🕒 Activity Logs</h4>
         <ul style={{ background: '#f9f9f9', padding: '15px', borderRadius: '8px', maxHeight: '200px', overflowY: 'auto' }}>
           {activityLog.map((log, i) => (
-            <li key={i} style={{ fontSize: '0.9em', marginBottom: '4px' }}>{log}</li>
+            <li key={i} style={{ fontSize: '0.9em' }}>{log}</li>
           ))}
         </ul>
       </div>
