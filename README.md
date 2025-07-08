@@ -1,70 +1,98 @@
-# Getting Started with Create React App
+# 📝 My First Kanban Task Board (React + PHP + MySQL)
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Hello! 👋  
+This is a simple **Kanban-style Task Management App** that I created while learning full-stack development.  
+I used **React.js for frontend**, **PHP & MySQL for backend**, and hosted everything using **Vercel** and **shared hosting**.
 
-## Available Scripts
+I made this project to understand how frontend connects with backend using APIs, how authentication works using JWT, and how drag-and-drop works in React.
 
-In the project directory, you can run:
+---
 
-### `npm start`
+## 🔗 Live Links
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+- **Frontend:** [https://todo-frontend-eight-brown.vercel.app](https://todo-frontend-eight-brown.vercel.app)
+- **Backend APIs:** [https://backend.cicowp-ca.com/api](https://backend.cicowp-ca.com/api)
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+You can try the live demo using the credentials below.
 
-### `npm test`
+---
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+## 🧠 What I Learned from This Project
 
-### `npm run build`
+- Making protected routes with login/logout
+- Calling PHP APIs from React using Axios
+- How to use JWT token in frontend
+- Basic drag-and-drop using `react-beautiful-dnd`
+- Saving activity logs in MySQL and showing them in frontend
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+---
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+## 🔐 Test Login Credentials
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+```
+Email: tushar@example.com
+Password: 123456
+```
 
-### `npm run eject`
+---
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+## 🔨 Tech Stack
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+- **Frontend:** React.js, JavaScript, Axios
+- **Backend:** PHP (Core PHP)
+- **Database:** MySQL
+- **Auth:** JWT Token Based
+- **Hosting:** Vercel (Frontend) + Shared Hosting with CPanel (Backend)
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+---
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+## ✅ Features
 
-## Learn More
+- Login & Register
+- Add/Edit tasks
+- Drag and drop tasks between columns (Todo, InProgress, Done)
+- Activity log tracking (locally + from MySQL)
+- Protected routes and token handling
+- Periodic real-time sync (polling every 10s)
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+---
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+## 🧰 How to Run Locally
 
-### Code Splitting
+### 1. Clone and Setup Frontend
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+```bash
+git clone https://github.com/your-username/todo-frontend.git
+cd todo-frontend
+npm install
+npm start
+```
 
-### Analyzing the Bundle Size
+### 2. Backend Setup
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+- Place backend folder on your XAMPP/LAMP server or upload to shared hosting
+- Import `todo_db.sql` into MySQL
+- Update your `config.php` file with DB info
+- Set API base path in React accordingly
 
-### Making a Progressive Web App
+---
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+## ❗ Notes
 
-### Advanced Configuration
+- **Smart Assign** feature is still under development
+- **Real-time WebSocket sync** not added yet (currently using setInterval)
+- Made this project fully myself (no templates used)
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+---
 
-### Deployment
+## 🧑‍💻 About Me
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+Hi, I’m **Tushar Modi**, a fresher web developer.  
+I started with PHP and now learning full-stack using MERN. I love building things from scratch and learning while doing.  
+You can connect with me on GitHub: [@tushar-GDM](https://github.com/tushar-GDM)
 
-### `npm run build` fails to minify
+---
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+## 📃 License
+
+Free to use and modify. If you find any bug, feel free to fix it 🙏
